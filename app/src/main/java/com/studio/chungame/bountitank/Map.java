@@ -39,6 +39,7 @@ public class Map {
     private Tile[][] tiles;
     private LinkedList<Bullet> bullets;
     private LinkedList<Explosion> explosions;
+    private GameObjectMapItem[][] clashableObjMap;
 
     public Map(int scale, int screenWidth, int screenHeight)
     {
@@ -60,6 +61,13 @@ public class Map {
         heightInRegions = r.nextInt(MAP_RANGE_IN_REGIONS[scale + 1]
                                 - MAP_RANGE_IN_REGIONS[scale])
                                 + MAP_RANGE_IN_REGIONS[scale];
+
+        clashableObjMap = new GameObjectMapItem[heightInRegions][widthInRegions];
+        for(int row = 0; row < heightInRegions; ++row) {
+            for(int col = 0; col < widthInRegions; ++col) {
+                clashableObjMap[row][col] = new GameObjectMapItem();
+            }
+        }
 
         widthInPixels = widthInRegions * regionBreathInPixels;
         heightInPixels = heightInRegions * regionBreathInPixels;
@@ -421,5 +429,70 @@ public class Map {
     {
         Explosion explosion = new Explosion(side, centerX, centerY);
         explosions.addLast(explosion);
+    }
+
+    private static class GameObjectMapItem {
+        public LinkedList<GameObject> objs = new LinkedList<GameObject>();
+    };
+
+    private void genTunnelMap(int heightInTiles, int widthInTiles)
+    {
+        int[][] map = new int[heightInTiles][widthInTiles];
+
+        for(int i = 0; i < heightInTiles; ++i) {
+            for(int j = 0; j < widthInTiles; ++j) {
+                map[i][j] = 1;
+            }
+        }
+
+
+    }
+
+    private abstract class MapGenerator {
+        protected int[][] tiles;
+
+        public MapGenerator(int height, int width)
+        {
+            tiles = new int[height][width];
+            for(int i = 0; i < height; ++i) {
+                for(int j = 0; j < width; ++j) {
+                    tiles[i][j] = 1;
+                }
+            }
+        }
+
+        public abstract void generate();
+    }
+
+    private class TunnelMapGenerator extends  MapGenerator {
+        private class TunnelMaker {
+            public int[] directions  = new int[3];
+            public int curDirectionIdx;
+            public int minStepsPerDirection;
+            public int maxStepsPerDirection;
+            public int remainingStepsCurDirection;
+            public int toalRemainingSteps;
+            public int row;
+            public int col;
+
+            public TunnelMaker(int mainDirection, int minStepsPerDirection,
+                               int maxStepsPerDirection, int totalSteps,
+                               int startRow, int startCol)
+            {
+
+            }
+        }
+
+        public TunnelMapGenerator(int height, int width)
+        {
+            super(height, width);
+        }
+
+
+        @Override
+        public void generate()
+        {
+
+        }
     }
 }

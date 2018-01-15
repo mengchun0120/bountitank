@@ -34,6 +34,10 @@ public class Explosion extends GameObject {
 
     public static void prepare(int blockInPixels)
     {
+        if(bitmaps != null) {
+            return;
+        }
+
         class Spark {
             PointF pos = new PointF();
             public float speed;

@@ -1,6 +1,7 @@
 package com.studio.chungame.bountitank;
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
@@ -14,6 +15,7 @@ public abstract class GameObject {
     public final static int MOVABLE        = 0x00000008;
 
     protected RectF bound = new RectF();
+    protected Rect clashMapRegion = new Rect();
     protected int flag;
     protected int type;
 
@@ -28,17 +30,31 @@ public abstract class GameObject {
         return bound;
     }
 
-    public void setBound(final RectF newBound)
-    {
-        bound = newBound;
-    }
-
     public void setBound(float top, float left, float bottom, float right)
     {
         bound.top = top;
         bound.left = left;
         bound.bottom = bottom;
         bound.right = right;
+    }
+
+    public Rect getClashMapRegion()
+    {
+        return clashMapRegion;
+    }
+
+    public void setClashMapRegion(int top, int left, int bottom, int right)
+    {
+        clashMapRegion.top = top;
+        clashMapRegion.left = left;
+        clashMapRegion.bottom = bottom;
+        clashMapRegion.right = right;
+    }
+
+    public boolean withinClashMapRegion(int x, int y)
+    {
+        return clashMapRegion.left <= x && x <= clashMapRegion.right &&
+               clashMapRegion.top <= y && y <=clashMapRegion.bottom;
     }
 
     public void setFlag(boolean enabled, int f)

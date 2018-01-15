@@ -38,6 +38,10 @@ public class Bullet extends GameObject {
 
     public static void prepare(int blockInPixels)
     {
+        if(bitmaps != null) {
+            return;
+        }
+
         radiusInPixels = RADIUS_IN_BLOCKS * blockInPixels;
 
         int width = (int)radiusInPixels * 2;
